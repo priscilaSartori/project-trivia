@@ -3,7 +3,7 @@ const INITIAL_STATE = {
   email: '',
 };
 
-userReducer = (state = INITIAL_STATE, action) => {
+const userReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
   default:
     return state;
