@@ -1,4 +1,7 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { getToken } from '../redux/actions';
 import logo from '../trivia.png';
 
 class Login extends React.Component {
@@ -6,6 +9,17 @@ class Login extends React.Component {
     name: '',
     email: '',
     disabled: true,
+
+  };
+
+  handleClick = async () => {
+    const { dispatch, history } = this.props;
+    const response = await fetch('https://opentdb.com/api_token.php?command=request');
+    const json = await response.json();
+    // console.log(json.token);
+    dispatch(getToken(json.token));
+    localStorage.setItem('token', json.token);
+    history.push('/Game');
   };
 
   handleChange = ({ target }) => {
@@ -54,10 +68,23 @@ class Login extends React.Component {
             onChange={ this.handleChange }
           />
         </label>
-        <button data-testid="btn-play" type="button" disabled={ disabled }>Play</button>
+        <button
+          data-testid="btn-play"
+          type="button"
+          disabled={ disabled }
+          onClick={ () => { this.handleClick(); } }
+        >
+          Play
+
+        </button>
       </div>
     );
   }
 }
 
-export default Login;
+Login.propTypes = {
+  dispatch: PropTypes.func.isRequired,
+  history: PropTypes.func.isRequired,
+};
+
+export default connect()(Login);
