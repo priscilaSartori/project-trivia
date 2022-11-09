@@ -13,6 +13,11 @@ class Login extends React.Component {
 
   };
 
+  redirectPage = () => {
+    const { history } = this.props;
+    history.push('/settings');
+  };
+
   handleClick = async () => {
     const { dispatch, history } = this.props;
     const response = await fetch('https://opentdb.com/api_token.php?command=request');
@@ -47,6 +52,16 @@ class Login extends React.Component {
     const { disabled, name, email } = this.state;
     return (
       <div className="position-absolute top-50 start-50 translate-middle">
+        <div>
+          <button
+            type="button"
+            data-testid="btn-settings"
+            onClick={ this.redirectPage }
+          >
+            Configuração
+
+          </button>
+        </div>
         <img src={ logo } className="App-logo" alt="logo" />
         <div className="mt-5">
           <div className="mb-2 d-grid gap-2">
@@ -89,6 +104,7 @@ class Login extends React.Component {
             </button>
           </div>
         </div>
+
       </div>
     );
   }
@@ -96,7 +112,7 @@ class Login extends React.Component {
 
 Login.propTypes = {
   dispatch: PropTypes.func.isRequired,
-  history: PropTypes.func.isRequired,
+  history: PropTypes.shape({ push: PropTypes.func }).isRequired,
 };
 
 export default connect()(Login);
