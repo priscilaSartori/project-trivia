@@ -5,7 +5,7 @@ const INITIAL_STATE = {
   gravatarEmail: '',
 };
 
-playerReducer = (state = INITIAL_STATE, action) => {
+const playerReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
   default:
     return state;
