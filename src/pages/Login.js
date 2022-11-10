@@ -24,7 +24,7 @@ class Login extends React.Component {
     dispatch(getToken(json.token));
     dispatch(getLogin(this.state));
     localStorage.setItem('token', json.token);
-    history.push('/Game');
+    history.push('/game');
   };
 
   handleChange = ({ target }) => {

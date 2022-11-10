@@ -10,7 +10,6 @@ const INITIAL_STATE = {
 const playerReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
   case GET_LOGIN:
-    console.log(action);
     return {
       ...state,
       name: action.payload.name,
