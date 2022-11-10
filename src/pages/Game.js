@@ -20,6 +20,14 @@ class Game extends React.Component {
         >
           Configuração
         </button>
+        <p data-testid="correct-answer">TESTE</p>
+        <button
+          type="button"
+          data-testid="btn-next"
+          onClick={ this.redirectPage }
+        >
+          Next
+        </button>
       </div>
     );
   }
