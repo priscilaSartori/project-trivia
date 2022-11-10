@@ -48,8 +48,8 @@ describe('Teste tela de Login', () => {
         userEvent.type(inputName, 'test')
         const btnPlay = screen.getByRole('button', { name: 'Play' })
         userEvent.click(btnPlay)
-        const tela = await screen.findByText('Tela de jogo')
-        expect(tela).toBeInTheDocument();
+        const tela = screen.findByText('Tela de jogo')
+        expect(await tela).toBeInTheDocument();
         expect(history.location.pathname).toBe('/game');
     })
 })
