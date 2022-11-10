@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Header from '../components/Header';
 
 class Game extends React.Component {
   redirectPage = () => {
@@ -10,6 +11,7 @@ class Game extends React.Component {
   render() {
     return (
       <div>
+        <Header />
         <p>Tela de jogo</p>
         <button
           type="button"
@@ -17,7 +19,6 @@ class Game extends React.Component {
           onClick={ this.redirectPage }
         >
           Configuração
-
         </button>
       </div>
     );
