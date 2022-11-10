@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { getToken } from '../redux/actions';
+import { getToken, getLogin } from '../redux/actions';
 import logo from '../trivia.png';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -10,7 +10,6 @@ class Login extends React.Component {
     name: '',
     email: '',
     disabled: true,
-
   };
 
   redirectPage = () => {
@@ -22,8 +21,8 @@ class Login extends React.Component {
     const { dispatch, history } = this.props;
     const response = await fetch('https://opentdb.com/api_token.php?command=request');
     const json = await response.json();
-    // console.log(json.token);
     dispatch(getToken(json.token));
+    dispatch(getLogin(this.state));
     localStorage.setItem('token', json.token);
     history.push('/Game');
   };
