@@ -1,7 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import Header from '../components/Header';
 import getQuestions from '../service/getQuestions';
+import { addScore } from '../redux/actions';
 
 class Game extends React.Component {
   state = {
@@ -56,12 +58,32 @@ class Game extends React.Component {
     }
   };
 
+  handleClick = (testeId, difficulty) => {
+    const { dispatch } = this.props;
+    const { stopwatch } = this.state;
+    let difficultyNumber = 0;
+
+    const easyNumber = 1;
+    const mediumNumber = 2;
+    const hardNumber = 3;
+
+    if (difficulty === 'easy') difficultyNumber = easyNumber;
+    if (difficulty === 'medium') difficultyNumber = mediumNumber;
+    if (difficulty === 'hard') difficultyNumber = hardNumber;
+
+    if (testeId.includes('correct')) {
+      const ScoreToAdd = 10;
+      dispatch(addScore(ScoreToAdd + (stopwatch * difficultyNumber)));
+    }
+  };
+
   render() {
     const { questions, currentQuestion, loadingQuestions, time, stopwatch } = this.state;
     if (loadingQuestions) return (<p>Carregando Perguntas</p>);
     const { category,
       question,
       shuffledAlternatives,
+      difficulty,
     } = questions.results[currentQuestion];
     const correctAnswer = questions.results[currentQuestion].correct_answer;
     const incorrectAnswers = questions.results[currentQuestion].incorrect_answers;
@@ -102,6 +124,7 @@ class Game extends React.Component {
                     type="button"
                     data-testid={ dataTestId }
                     disabled={ time }
+                    onClick={ () => { this.handleClick(dataTestId, difficulty); } }
                   >
                     {alternative}
                   </button>
@@ -123,5 +146,6 @@ class Game extends React.Component {
 }
 Game.propTypes = {
   history: PropTypes.shape({ push: PropTypes.func }).isRequired,
+  dispatch: PropTypes.func.isRequired,
 };
-export default Game;
+export default connect()(Game);
