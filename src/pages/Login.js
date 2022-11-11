@@ -96,7 +96,7 @@ class Login extends React.Component {
             type="button"
             data-testid="btn-settings"
             onClick={ this.redirectPage }
-            className="border border-0 bg-white"
+            className="border border-0 bg-light"
           >
             <CiSettings size={ 28 } />
           </button>
