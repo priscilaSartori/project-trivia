@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 class Ranking extends React.Component {
   redirectPage = () => {
@@ -9,7 +10,7 @@ class Ranking extends React.Component {
   render() {
     return (
       <div>
-
+        <h3 data-testid="ranking-title">Ranking</h3>
         <button
           type="button"
           data-testid="btn-go-home"
