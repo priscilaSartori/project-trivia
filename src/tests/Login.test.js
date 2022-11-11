@@ -6,12 +6,12 @@ import { getByText, screen, waitFor } from '@testing-library/react';
 describe('Teste tela de Login', () => {
     it('Testa se o botão de configuração está na tela', () => {
         renderWithRouterAndRedux(<App />);
-        const btnSettings = screen.getByRole('button', { name: 'Configuração' })
+        const btnSettings = screen.getByTestId('btn-settings')
         expect(btnSettings).toBeInTheDocument();
     })
     it('Testa se o botão configurações redireciona para "/settings"', () => {
         const { history } = renderWithRouterAndRedux(<App />);
-        const btnSettings = screen.getByRole('button', { name: 'Configuração' })
+        const btnSettings = screen.getByTestId('btn-settings')
         userEvent.click(btnSettings);
         expect(history.location.pathname).toBe('/settings');
     })
@@ -48,7 +48,7 @@ describe('Teste tela de Login', () => {
         userEvent.type(inputName, 'test')
         const btnPlay = screen.getByRole('button', { name: 'Play' })
         userEvent.click(btnPlay)
-        const tela = screen.findByText('Tela de jogo')
+        const tela = await screen.findByText('Tela de jogo')
         expect(await tela).toBeInTheDocument();
         expect(history.location.pathname).toBe('/game');
     })
