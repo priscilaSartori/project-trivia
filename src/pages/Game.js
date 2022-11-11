@@ -13,6 +13,7 @@ class Game extends React.Component {
     loadingQuestions: true,
     required: false,
     stopwatch: 30,
+    clicked: false,
     time: false,
   };
 
@@ -78,11 +79,25 @@ class Game extends React.Component {
       const ScoreToAdd = 10;
       dispatch(addScore(ScoreToAdd + (stopwatch * difficultyNumber)));
     }
+
+    this.setState({
+      clicked: true,
+    });
+  };
+
+  nextQuestion = () => {
+    const { questions } = this.state;
+    console.log('testando ->', questions.results);
   };
 
   render() {
     const { questions,
-      currentQuestion, loadingQuestions, time, stopwatch, required } = this.state;
+      currentQuestion,
+      loadingQuestions,
+      time,
+      stopwatch,
+      clicked,
+      required } = this.state;
     if (loadingQuestions) return (<p>Carregando Perguntas</p>);
     const { category,
       question,
@@ -154,6 +169,17 @@ class Game extends React.Component {
             }
           </div>
         </div>
+        { stopwatch === 0 || clicked === true
+          ? (
+            <button
+              type="button"
+              data-testid="btn-next"
+              onClick={ this.nextQuestion }
+            >
+              Next
+            </button>
+          )
+          : null }
         <button
           type="button"
           data-testid="btn-settings"
@@ -169,4 +195,5 @@ Game.propTypes = {
   history: PropTypes.shape({ push: PropTypes.func }).isRequired,
   dispatch: PropTypes.func.isRequired,
 };
+
 export default connect()(Game);
