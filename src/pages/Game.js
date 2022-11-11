@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import Header from '../components/Header';
 import getQuestions from '../service/getQuestions';
 import { addScore } from '../redux/actions';
+// bootstrapremovido
 
 class Game extends React.Component {
   state = {
