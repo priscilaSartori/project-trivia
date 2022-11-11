@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { CiSettings } from 'react-icons/ci';
 import { getToken, getLogin } from '../redux/actions';
 import logo from '../trivia.png';
+import 'bootstrap/dist/css/bootstrap.min.css';
 // import 'bootstrap/dist/css/bootstrap.min.css';
 
 class Login extends React.Component {
