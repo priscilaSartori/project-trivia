@@ -9,6 +9,7 @@ class Game extends React.Component {
     currentQuestion: 0,
     loadingQuestions: true,
     time: false,
+    stopwatch: 30,
   };
 
   async componentDidMount() {
@@ -16,14 +17,23 @@ class Game extends React.Component {
     const token = localStorage.getItem('token');
     const questions = await getQuestions(token);
     const expirationCode = 3;
-    const timerMin = 5000;
-    const timerMax = 30000;
-    setInterval(this.timerFalse(), timerMin);
-    setTimeout(this.timer(), timerMax);
-
+    const timerMin = 1000;
+    setInterval(this.timerStopwatch, timerMin);
     if (questions.response_code === expirationCode) {
       localStorage.removeItem('token');
       history.push('/');
+    }
+
+    for (let index = 0; index < questions.results.length; index += 1) {
+      const correctAnswer = questions.results[index].correct_answer;
+      const incorrectAnswers = questions.results[index].incorrect_answers;
+      console.log(incorrectAnswers);
+      const alternatives = [correctAnswer, ...incorrectAnswers];
+      const randomDivision = 0.5;
+      const shuffledAlternatives = alternatives
+        .sort(() => Math.random() - randomDivision);
+
+      questions.results[index].shuffledAlternatives = shuffledAlternatives;
     }
 
     this.setState({
@@ -36,27 +46,29 @@ class Game extends React.Component {
     history.push('/settings');
   };
 
-  timerFalse = () => {
-    this.setState({ time: true });
-  };
+  timerStopwatch = () => {
+    const { stopwatch } = this.state;
 
-  timer = () => {
-    this.setState({ time: true });
+    if (stopwatch > 0) {
+      this.setState({ stopwatch: [stopwatch - 1], time: false });
+    } else {
+      this.setState({ time: true });
+    }
   };
 
   render() {
-    const { questions, currentQuestion, loadingQuestions, time } = this.state;
-    console.log(questions);
+    const { questions, currentQuestion, loadingQuestions, time, stopwatch } = this.state;
     if (loadingQuestions) return (<p>Carregando Perguntas</p>);
-
-    const { category, question } = questions.results[currentQuestion];
+    const { category,
+      question,
+      shuffledAlternatives,
+    } = questions.results[currentQuestion];
     const correctAnswer = questions.results[currentQuestion].correct_answer;
     const incorrectAnswers = questions.results[currentQuestion].incorrect_answers;
-    console.log(incorrectAnswers);
-    const alternatives = [correctAnswer, ...incorrectAnswers];
-    const randomDivision = 0.5;
-    const shuffledAlternatives = alternatives
-      .sort(() => Math.random() - randomDivision);
+    // const alternatives = [correctAnswer, ...incorrectAnswers];
+    // const randomDivision = 0.5;
+    // const shuffledAlternatives = alternatives
+    //  .sort(() => Math.random() - randomDivision);
     return (
       <div>
         <Header />
@@ -66,6 +78,11 @@ class Game extends React.Component {
           </h2>
           <p data-testid="question-text">
             {question}
+            <span>
+              Tempo:
+              { stopwatch }
+              s
+            </span>
           </p>
           <div data-testid="answer-options">
             {
@@ -104,9 +121,7 @@ class Game extends React.Component {
     );
   }
 }
-
 Game.propTypes = {
   history: PropTypes.shape({ push: PropTypes.func }).isRequired,
 };
-
 export default Game;
