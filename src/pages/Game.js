@@ -12,6 +12,7 @@ class Game extends React.Component {
     loadingQuestions: true,
     time: false,
     stopwatch: 30,
+    clicked: false,
   };
 
   async componentDidMount() {
@@ -75,10 +76,25 @@ class Game extends React.Component {
       const ScoreToAdd = 10;
       dispatch(addScore(ScoreToAdd + (stopwatch * difficultyNumber)));
     }
+
+    this.setState({
+      clicked: true,
+    });
+  };
+
+  nextQuestion = () => {
+    const { questions } = this.state;
+
+    console.log('testando ->', questions.results);
   };
 
   render() {
-    const { questions, currentQuestion, loadingQuestions, time, stopwatch } = this.state;
+    const { questions,
+      currentQuestion,
+      loadingQuestions,
+      time,
+      stopwatch,
+      clicked } = this.state;
     if (loadingQuestions) return (<p>Carregando Perguntas</p>);
     const { category,
       question,
@@ -133,6 +149,17 @@ class Game extends React.Component {
             }
           </div>
         </div>
+        { stopwatch === 0 || clicked === true
+          ? (
+            <button
+              type="button"
+              data-testid="btn-next"
+              onClick={ this.nextQuestion }
+            >
+              Next
+            </button>
+          )
+          : null }
         <button
           type="button"
           data-testid="btn-settings"
