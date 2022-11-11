@@ -8,6 +8,7 @@ class Game extends React.Component {
     questions: {},
     currentQuestion: 0,
     loadingQuestions: true,
+    time: false,
   };
 
   async componentDidMount() {
@@ -15,6 +16,10 @@ class Game extends React.Component {
     const token = localStorage.getItem('token');
     const questions = await getQuestions(token);
     const expirationCode = 3;
+    const timerMin = 5000;
+    const timerMax = 30000;
+    setInterval(this.timerFalse(), timerMin);
+    setTimeout(this.timer(), timerMax);
 
     if (questions.response_code === expirationCode) {
       localStorage.removeItem('token');
@@ -31,8 +36,17 @@ class Game extends React.Component {
     history.push('/settings');
   };
 
+  timerFalse = () => {
+    this.setState({ time: true });
+  };
+
+  timer = () => {
+    this.setState({ time: true });
+  };
+
   render() {
-    const { questions, currentQuestion, loadingQuestions } = this.state;
+    const { questions, currentQuestion, loadingQuestions, time } = this.state;
+    console.log(questions);
     if (loadingQuestions) return (<p>Carregando Perguntas</p>);
 
     const { category, question } = questions.results[currentQuestion];
@@ -70,6 +84,7 @@ class Game extends React.Component {
                     key={ index }
                     type="button"
                     data-testid={ dataTestId }
+                    disabled={ time }
                   >
                     {alternative}
                   </button>
