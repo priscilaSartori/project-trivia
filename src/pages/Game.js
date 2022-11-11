@@ -102,7 +102,7 @@ class Game extends React.Component {
             {question}
             <span>
               Tempo:
-              { stopwatch }
+              {stopwatch}
               s
             </span>
           </p>
@@ -129,6 +129,7 @@ class Game extends React.Component {
                         data-testid={ dataTestId }
                         className={ style }
                         onClick={ () => this.setState({ required: true }) }
+                        disabled={ time }
                       >
                         {alternative}
                       </button>
@@ -169,4 +170,3 @@ Game.propTypes = {
   dispatch: PropTypes.func.isRequired,
 };
 export default connect()(Game);
-
