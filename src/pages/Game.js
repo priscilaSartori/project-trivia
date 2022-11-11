@@ -2,13 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Header from '../components/Header';
 import getQuestions from '../service/getQuestions';
+import styles from './Game.module.css';
 
 class Game extends React.Component {
   state = {
     questions: {},
     currentQuestion: 0,
     loadingQuestions: true,
-    time: false,
+    required: false,
   };
 
   async componentDidMount() {
@@ -16,10 +17,6 @@ class Game extends React.Component {
     const token = localStorage.getItem('token');
     const questions = await getQuestions(token);
     const expirationCode = 3;
-    const timerMin = 5000;
-    const timerMax = 30000;
-    setInterval(this.timerFalse(), timerMin);
-    setTimeout(this.timer(), timerMax);
 
     if (questions.response_code === expirationCode) {
       localStorage.removeItem('token');
@@ -36,23 +33,12 @@ class Game extends React.Component {
     history.push('/settings');
   };
 
-  timerFalse = () => {
-    this.setState({ time: true });
-  };
-
-  timer = () => {
-    this.setState({ time: true });
-  };
-
   render() {
-    const { questions, currentQuestion, loadingQuestions, time } = this.state;
-    console.log(questions);
+    const { questions, currentQuestion, loadingQuestions, required } = this.state;
     if (loadingQuestions) return (<p>Carregando Perguntas</p>);
-
     const { category, question } = questions.results[currentQuestion];
     const correctAnswer = questions.results[currentQuestion].correct_answer;
     const incorrectAnswers = questions.results[currentQuestion].incorrect_answers;
-    console.log(incorrectAnswers);
     const alternatives = [correctAnswer, ...incorrectAnswers];
     const randomDivision = 0.5;
     const shuffledAlternatives = alternatives
@@ -79,12 +65,30 @@ class Game extends React.Component {
                   });
                   dataTestId = `wrong-answer-${incorrectAnswerIndex}`;
                 }
+                let style = styles.Answer;
+                if (required) {
+                  if (alternative !== correctAnswer) {
+                    style = styles.IncorrectAnswer;
+                    return (
+                      <button
+                        key={ index }
+                        type="button"
+                        data-testid={ dataTestId }
+                        className={ style }
+                        onClick={ () => this.setState({ required: true }) }
+                      >
+                        {alternative}
+                      </button>
+                    );
+                  } style = styles.CorrectAnswer;
+                }
                 return (
                   <button
                     key={ index }
                     type="button"
                     data-testid={ dataTestId }
-                    disabled={ time }
+                    className={ style }
+                    onClick={ () => this.setState({ required: true }) }
                   >
                     {alternative}
                   </button>
