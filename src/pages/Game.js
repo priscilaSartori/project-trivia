@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Header from '../components/Header';
 import getQuestions from '../service/getQuestions';
+import styles from './Game.module.css';
 import { addScore } from '../redux/actions';
 
 class Game extends React.Component {
@@ -10,8 +11,9 @@ class Game extends React.Component {
     questions: {},
     currentQuestion: 0,
     loadingQuestions: true,
-    time: false,
+    required: false,
     stopwatch: 30,
+    time: false,
   };
 
   async componentDidMount() {
@@ -21,6 +23,7 @@ class Game extends React.Component {
     const expirationCode = 3;
     const timerMin = 1000;
     setInterval(this.timerStopwatch, timerMin);
+
     if (questions.response_code === expirationCode) {
       localStorage.removeItem('token');
       history.push('/');
@@ -78,7 +81,8 @@ class Game extends React.Component {
   };
 
   render() {
-    const { questions, currentQuestion, loadingQuestions, time, stopwatch } = this.state;
+    const { questions,
+      currentQuestion, loadingQuestions, time, stopwatch, required } = this.state;
     if (loadingQuestions) return (<p>Carregando Perguntas</p>);
     const { category,
       question,
@@ -87,10 +91,6 @@ class Game extends React.Component {
     } = questions.results[currentQuestion];
     const correctAnswer = questions.results[currentQuestion].correct_answer;
     const incorrectAnswers = questions.results[currentQuestion].incorrect_answers;
-    // const alternatives = [correctAnswer, ...incorrectAnswers];
-    // const randomDivision = 0.5;
-    // const shuffledAlternatives = alternatives
-    //  .sort(() => Math.random() - randomDivision);
     return (
       <div>
         <Header />
@@ -118,13 +118,33 @@ class Game extends React.Component {
                   });
                   dataTestId = `wrong-answer-${incorrectAnswerIndex}`;
                 }
+                let style = styles.Answer;
+                if (required) {
+                  if (alternative !== correctAnswer) {
+                    style = styles.IncorrectAnswer;
+                    return (
+                      <button
+                        key={ index }
+                        type="button"
+                        data-testid={ dataTestId }
+                        className={ style }
+                        onClick={ () => this.setState({ required: true }) }
+                      >
+                        {alternative}
+                      </button>
+                    );
+                  } style = styles.CorrectAnswer;
+                }
                 return (
                   <button
                     key={ index }
                     type="button"
                     data-testid={ dataTestId }
+                    className={ style }
+                    onClick={ () => this
+                      .setState({ required: true }, () => this
+                        .handleClick(dataTestId, difficulty)) }
                     disabled={ time }
-                    onClick={ () => { this.handleClick(dataTestId, difficulty); } }
                   >
                     {alternative}
                   </button>
@@ -149,3 +169,4 @@ Game.propTypes = {
   dispatch: PropTypes.func.isRequired,
 };
 export default connect()(Game);
+
