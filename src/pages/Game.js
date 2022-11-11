@@ -59,13 +59,16 @@ class Game extends React.Component {
   render() {
     const { questions, currentQuestion, loadingQuestions, time, stopwatch } = this.state;
     if (loadingQuestions) return (<p>Carregando Perguntas</p>);
-    const { category, question } = questions.results[currentQuestion];
+    const { category,
+      question,
+      shuffledAlternatives,
+    } = questions.results[currentQuestion];
     const correctAnswer = questions.results[currentQuestion].correct_answer;
     const incorrectAnswers = questions.results[currentQuestion].incorrect_answers;
-    const alternatives = [correctAnswer, ...incorrectAnswers];
-    const randomDivision = 0.5;
-    const shuffledAlternatives = alternatives
-      .sort(() => Math.random() - randomDivision);
+    // const alternatives = [correctAnswer, ...incorrectAnswers];
+    // const randomDivision = 0.5;
+    // const shuffledAlternatives = alternatives
+    //  .sort(() => Math.random() - randomDivision);
     return (
       <div>
         <Header />
