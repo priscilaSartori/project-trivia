@@ -1,0 +1,56 @@
+.Answer {
+  background-color: blue;
+  border: none;
+  border-radius: 5px;
+  box-shadow: 7px 6px 28px 1px rgba(0, 0, 0, 0.24);
+  color: white;
+  cursor: pointer;
+  margin: 5px;
+  outline: none;
+  padding: 10px;
+  text-decoration: none;
+  transition: 0.2s all;
+}
+
+.IncorrectAnswer {
+  background-color: red;
+  border: 3px solid red;
+  border-radius: 5px;
+  box-shadow: 7px 6px 28px 1px rgba(0, 0, 0, 0.24);
+  color: white;
+  cursor: pointer;
+  margin: 5px;
+  outline: none;
+  padding: 10px;
+  text-decoration: none;
+  transition: 0.2s all;
+
+}
+
+.CorrectAnswer {
+  background-color: rgb(6, 240, 15);
+  border: 3px solid rgb(6, 240, 15);
+  border-radius: 5px;
+  box-shadow: 3px 2px 22px 1px rgba(0, 0, 0, 0.24);
+  color: white;
+  cursor: pointer;
+  margin: 5px;
+  outline: none;
+  padding: 10px;
+  text-decoration: none;
+  transition: 0.2s all;
+}
+
+button:disabled {
+  background-color: gray;
+  border: 3px solid gray;
+  border-radius: 5px;
+  box-shadow: 3px 2px 22px 1px rgba(0, 0, 0, 0.24);
+  color: white;
+  cursor: pointer;
+  margin: 5px;
+  outline: none;
+  padding: 10px;
+  text-decoration: none;
+  transition: 0.2s all;
+}
