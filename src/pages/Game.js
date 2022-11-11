@@ -84,7 +84,6 @@ class Game extends React.Component {
 
   nextQuestion = () => {
     const { questions } = this.state;
-
     console.log('testando ->', questions.results);
   };
 
