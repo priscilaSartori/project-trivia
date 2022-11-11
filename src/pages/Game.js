@@ -86,8 +86,12 @@ class Game extends React.Component {
   };
 
   nextQuestion = () => {
-    const { questions } = this.state;
-    console.log('testando ->', questions.results);
+    const { currentQuestion } = this.state;
+    this.setState({
+      currentQuestion: currentQuestion + 1,
+      stopwatch: 30,
+      required: false,
+    });
   };
 
   render() {
