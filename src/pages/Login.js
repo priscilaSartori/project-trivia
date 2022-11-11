@@ -53,7 +53,7 @@ class Login extends React.Component {
     return (
       <div className="vh-100 d-flex justify-content-center align-items-center bg-white">
         <div
-          className="col-md-4 p-5 shadow-sm border border-2
+          className="col-md-4 p-5 border border-2
         rounded-5 bg-light shadow-lg"
         >
           <img src={ logo } className="App-logo" alt="logo" />
@@ -96,7 +96,7 @@ class Login extends React.Component {
             type="button"
             data-testid="btn-settings"
             onClick={ this.redirectPage }
-            className="border border-0 bg-light"
+            className="btn btn-light border border-0"
           >
             <CiSettings size={ 28 } />
           </button>
