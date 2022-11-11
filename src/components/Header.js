@@ -25,7 +25,7 @@ class Header extends Component {
 Header.propTypes = {
   gravatarEmail: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
-  score: PropTypes.number.isRequired,
+  score: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = ({ playerReducer }) => ({
