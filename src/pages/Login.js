@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { CiSettings } from 'react-icons/ci';
 import { getToken, getLogin } from '../redux/actions';
 import logo from '../trivia.png';
 // import 'bootstrap/dist/css/bootstrap.min.css';
@@ -50,47 +51,36 @@ class Login extends React.Component {
   render() {
     const { disabled, name, email } = this.state;
     return (
-      <div className="position-absolute top-50 start-50 translate-middle">
-        <div>
-          <button
-            type="button"
-            data-testid="btn-settings"
-            onClick={ this.redirectPage }
-          >
-            Configuração
-
-          </button>
-        </div>
-        <img src={ logo } className="App-logo" alt="logo" />
-        <div className="mt-5">
-          <div className="mb-2 d-grid gap-2">
-            <label htmlFor="inputEmail" className="form-label">
-              <input
-                id="inputEmail"
-                type="email"
-                name="email"
-                data-testid="input-gravatar-email"
-                value={ email }
-                onChange={ this.handleChange }
-                className="form-control"
-                placeholder="Qual é o seu e-mail do gravatar?"
-              />
-            </label>
-          </div>
-          <div className="mb-2 d-grid gap-2">
-            <label htmlFor="inputName" className="form-label">
-              <input
-                id="inputName"
-                data-testid="input-player-name"
-                name="name"
-                value={ name }
-                onChange={ this.handleChange }
-                className="form-control"
-                placeholder="Qual é o seu nome?"
-              />
-            </label>
-          </div>
-          <div className="d-grid gap-2">
+      <div className="vh-100 d-flex justify-content-center align-items-center bg-white">
+        <div
+          className="col-md-4 p-5 border border-2
+        rounded-5 bg-light shadow-lg"
+        >
+          <img src={ logo } className="App-logo" alt="logo" />
+          <label htmlFor="inputEmail" className="form-label mt-5 d-grid">
+            <input
+              id="inputEmail"
+              type="email"
+              name="email"
+              data-testid="input-gravatar-email"
+              value={ email }
+              onChange={ this.handleChange }
+              className="form-control"
+              placeholder="Qual é o seu e-mail do gravatar?"
+            />
+          </label>
+          <label htmlFor="inputName" className="form-label d-grid">
+            <input
+              id="inputName"
+              data-testid="input-player-name"
+              name="name"
+              value={ name }
+              onChange={ this.handleChange }
+              className="form-control"
+              placeholder="Qual é o seu nome?"
+            />
+          </label>
+          <div className="d-grid gap-2 mb-3">
             <button
               data-testid="btn-play"
               type="button"
@@ -102,6 +92,15 @@ class Login extends React.Component {
 
             </button>
           </div>
+          <button
+            type="button"
+            data-testid="btn-settings"
+            onClick={ this.redirectPage }
+            className="btn btn-light border border-0"
+          >
+            <CiSettings size={ 28 } />
+          </button>
+
         </div>
 
       </div>
