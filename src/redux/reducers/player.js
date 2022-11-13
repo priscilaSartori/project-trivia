@@ -1,4 +1,4 @@
-import { GET_LOGIN, ADD_SCORE } from '../actions';
+import { GET_LOGIN, ADD_SCORE, ADD_ASSERTIONS, CLEAR_STATE } from '../actions';
 
 const INITIAL_STATE = {
   name: '',
@@ -19,6 +19,18 @@ const player = (state = INITIAL_STATE, action) => {
     return {
       ...state,
       score: state.score + action.payload,
+    };
+  case ADD_ASSERTIONS:
+    console.log(action.payload);
+    return {
+      ...state,
+      assertions: state.assertions + action.payload,
+    };
+  case CLEAR_STATE:
+    return {
+      ...state,
+      assertions: 0,
+      store: 0,
     };
   default:
     return state;
