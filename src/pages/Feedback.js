@@ -20,7 +20,6 @@ class Feedback extends React.Component {
   render() {
     const { assertions, score } = this.props;
     const minimo = 3;
-    console.log(assertions);
     return (
       <div>
         <Header />
