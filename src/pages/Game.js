@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import Header from '../components/Header';
 import getQuestions from '../service/getQuestions';
 import styles from './Game.module.css';
-import { addScore } from '../redux/actions';
+import { addScore, addAssertions } from '../redux/actions';
 
 class Game extends React.Component {
   state = {
@@ -33,7 +33,6 @@ class Game extends React.Component {
     for (let index = 0; index < questions.results.length; index += 1) {
       const correctAnswer = questions.results[index].correct_answer;
       const incorrectAnswers = questions.results[index].incorrect_answers;
-      console.log(incorrectAnswers);
       const alternatives = [correctAnswer, ...incorrectAnswers];
       const randomDivision = 0.5;
       const shuffledAlternatives = alternatives
@@ -77,7 +76,9 @@ class Game extends React.Component {
 
     if (testeId.includes('correct')) {
       const ScoreToAdd = 10;
+      const one = 1;
       dispatch(addScore(ScoreToAdd + (stopwatch * difficultyNumber)));
+      dispatch(addAssertions(one));
     }
 
     this.setState({
@@ -87,11 +88,18 @@ class Game extends React.Component {
 
   nextQuestion = () => {
     const { currentQuestion } = this.state;
-    this.setState({
-      currentQuestion: currentQuestion + 1,
-      stopwatch: 30,
-      required: false,
-    });
+    const maxQuestoes = 3;
+    if (currentQuestion <= maxQuestoes) {
+      this.setState({
+        currentQuestion: currentQuestion + 1,
+        stopwatch: 30,
+        required: false,
+      });
+    }
+    if (currentQuestion > maxQuestoes) {
+      const { history } = this.props;
+      history.push('/feedback');
+    }
   };
 
   render() {
@@ -119,12 +127,12 @@ class Game extends React.Component {
           </h2>
           <p data-testid="question-text">
             {question}
-            <span>
-              Tempo:
-              {stopwatch}
-              s
-            </span>
           </p>
+          <span>
+            Tempo:
+            {stopwatch}
+            s
+          </span>
           <div data-testid="answer-options">
             {
               shuffledAlternatives.map((alternative, index) => {
@@ -153,7 +161,8 @@ class Game extends React.Component {
                         {alternative}
                       </button>
                     );
-                  } style = styles.CorrectAnswer;
+                  }
+                  style = styles.CorrectAnswer;
                 }
                 return (
                   <button
@@ -173,7 +182,7 @@ class Game extends React.Component {
             }
           </div>
         </div>
-        { stopwatch === 0 || clicked === true
+        {stopwatch === 0 || clicked === true
           ? (
             <button
               type="button"
@@ -183,7 +192,7 @@ class Game extends React.Component {
               Next
             </button>
           )
-          : null }
+          : null}
         <button
           type="button"
           data-testid="btn-settings"

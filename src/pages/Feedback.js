@@ -3,11 +3,13 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Header from '../components/Header';
+import { clearState } from '../redux/actions';
 
 class Feedback extends React.Component {
   playAgain = () => {
-    const { history } = this.props;
+    const { history, dispatch } = this.props;
     history.push('/');
+    dispatch(clearState());
   };
 
   rankingScreen = () => {
@@ -17,13 +19,14 @@ class Feedback extends React.Component {
 
   render() {
     const { assertions, score } = this.props;
-    const Mínimo = 3;
+    const minimo = 3;
+    console.log(assertions);
     return (
       <div>
         <Header />
         {
-          (assertions < Mínimo ? <p data-testid="feedback-text">Could be better...</p>
-            : <p data-testid="feedback-text">Well Done!</p>)
+          assertions < minimo ? <p data-testid="feedback-text">Could be better...</p>
+            : <p data-testid="feedback-text">Well Done!</p>
         }
         <p data-testid="feedback-total-score">{score}</p>
         <p data-testid="feedback-total-question">{assertions}</p>
@@ -52,11 +55,12 @@ Feedback.propTypes = {
   assertions: PropTypes.number.isRequired,
   score: PropTypes.number.isRequired,
   history: PropTypes.shape({ push: PropTypes.func }).isRequired,
+  dispatch: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = ({ playerReducer }) => ({
-  assertions: playerReducer.assertions,
-  score: playerReducer.score,
+const mapStateToProps = ({ player }) => ({
+  assertions: player.assertions,
+  score: player.score,
 });
 
 export default connect(mapStateToProps)(Feedback);
