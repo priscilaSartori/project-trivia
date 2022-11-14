@@ -21,16 +21,16 @@ const player = (state = INITIAL_STATE, action) => {
       score: state.score + action.payload,
     };
   case ADD_ASSERTIONS:
-    console.log(action.payload);
     return {
       ...state,
       assertions: state.assertions + action.payload,
     };
   case CLEAR_STATE:
     return {
-      ...state,
+      name: '',
       assertions: 0,
-      store: 0,
+      score: 0,
+      gravatarEmail: '',
     };
   default:
     return state;

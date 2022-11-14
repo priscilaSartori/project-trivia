@@ -97,7 +97,14 @@ class Game extends React.Component {
       });
     }
     if (currentQuestion > maxQuestoes) {
-      const { history } = this.props;
+      const { name, score, gravatarEmail, history } = this.props;
+      const InfoRanking = { name, gravatarEmail, score };
+      const getRanking = JSON.parse(localStorage.getItem('ranking')) ?? [];
+      if (getRanking !== []) {
+        localStorage.setItem('ranking', JSON.stringify([...getRanking, InfoRanking]));
+      } else {
+        localStorage.setItem('ranking', JSON.stringify(InfoRanking));
+      }
       history.push('/feedback');
     }
   };
@@ -207,6 +214,15 @@ class Game extends React.Component {
 Game.propTypes = {
   history: PropTypes.shape({ push: PropTypes.func }).isRequired,
   dispatch: PropTypes.func.isRequired,
+  gravatarEmail: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  score: PropTypes.number.isRequired,
 };
 
-export default connect()(Game);
+const mapStateToProps = ({ player }) => ({
+  gravatarEmail: player.gravatarEmail,
+  name: player.name,
+  score: player.score,
+});
+
+export default connect(mapStateToProps)(Game);
