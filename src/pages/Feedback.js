@@ -13,8 +13,9 @@ class Feedback extends React.Component {
   };
 
   rankingScreen = () => {
-    const { history } = this.props;
+    const { history, dispatch } = this.props;
     history.push('/ranking');
+    dispatch(clearState());
   };
 
   render() {
