@@ -8,7 +8,7 @@ class Ranking extends React.Component {
   };
 
   componentDidMount() {
-    const getRanking = JSON.parse(localStorage.getItem('ranking')) ?? [];
+    const getRanking = JSON.parse(localStorage.getItem('ranking'));
     const getRankingSort = getRanking.sort((a, b) => b.score - a.score);
     this.setState({ ranking: getRankingSort });
   }
@@ -23,7 +23,7 @@ class Ranking extends React.Component {
     return (
       <div>
         <h2 data-testid="ranking-title">Ranking</h2>
-        {ranking.map((rankingUn, index = 0) => (
+        {ranking.map((rankingUn, index) => (
           <div key={ index }>
             <p
               data-testid={ `player-name-${index}` }
