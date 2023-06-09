@@ -1,10 +1,7 @@
 <h1 align="center">Project Trivia</h1>
 
 <br />
-
-<!--  ![TelaLogin](src/TelaLogin.png)
- ![TelaLoading](src/TelaWallet.png) -->
- 
+ *** CSS EM CONSTRUÇÃO ***
 <br />
 
 ## Descrição do Projeto
