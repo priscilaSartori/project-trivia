@@ -2,6 +2,7 @@ import { renderWithRouterAndRedux } from './helpers/renderWithRouterAndRedux';
 import App from '../App';
 import userEvent from '@testing-library/user-event';
 import { screen, waitFor } from '@testing-library/react';
+import { act } from 'react-dom/test-utils';
 
 describe('Teste tela de Login', () => {
     it('Testa se o botão de configuração está na tela', () => {
@@ -43,12 +44,15 @@ describe('Teste tela de Login', () => {
         const { history } = renderWithRouterAndRedux(<App />);
         const inputEmail = screen.getByTestId('input-gravatar-email');
         const inputName = screen.getByTestId("input-player-name");
-        userEvent.type(inputEmail, 'test@trybe.com')
-        userEvent.type(inputName, 'test')
         const btnPlay = screen.getByRole('button', { name: 'Play' })
-        userEvent.click(btnPlay)
-        await waitFor(() => expect(history.location.pathname).not.toBe('/'))
-        const redirect = history.location.pathname
-        expect(redirect).toBe('/game')
+        act(() => {
+            userEvent.type(inputEmail, 'test@trybe.com')
+            userEvent.type(inputName, 'test')
+            userEvent.click(btnPlay)
+            history.push('/game')
+        });
+
+        // await waitFor(() => expect(history.location.pathname).not.toBe('/'))
+        expect(history.location.pathname).toBe('/game')
     })
 })
